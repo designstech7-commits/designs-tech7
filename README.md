@@ -216,3 +216,4 @@ UPDATE profiles SET role = 'admin' WHERE email = 'admin@youremail.com';
 ## License
 
 All design and code © Designs.Tech7. Not for redistribution.
+# designs-tech7
