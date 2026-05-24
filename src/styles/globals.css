@@ -1,0 +1,532 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   DESIGN TOKENS & CSS VARIABLES
+   ============================================ */
+:root {
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+  --font-editorial: 'DM Serif Display', Georgia, serif;
+
+  /* Colors */
+  --color-ink: #0a0a0a;
+  --color-ink-50: #f5f5f5;
+  --color-acid: #c8ff00;
+  --color-ember: #ff4400;
+  --color-platinum: #e8e6e1;
+
+  /* Spacing rhythm */
+  --section-padding: clamp(4rem, 8vw, 8rem);
+  --container-max: 1440px;
+
+  /* Animation */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in-expo: cubic-bezier(0.7, 0, 0.84, 0);
+  --transition-fast: 0.15s var(--ease-expo);
+  --transition-base: 0.3s var(--ease-expo);
+  --transition-slow: 0.6s var(--ease-expo);
+
+  /* Z-index scale */
+  --z-below: -1;
+  --z-base: 0;
+  --z-raised: 10;
+  --z-overlay: 100;
+  --z-modal: 1000;
+  --z-toast: 9999;
+
+  /* Scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #303030 transparent;
+}
+
+/* ============================================
+   BASE RESET & TYPOGRAPHY
+   ============================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #0a0a0a;
+  color: #e8e6e1;
+  overflow-x: hidden;
+  min-height: 100dvh;
+}
+
+/* Custom selection */
+::selection {
+  background-color: #c8ff00;
+  color: #0a0a0a;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #303030;
+  border-radius: 999px;
+}
+
+/* ============================================
+   TYPOGRAPHY SCALE
+   ============================================ */
+.font-display { font-family: var(--font-display); }
+.font-editorial { font-family: var(--font-editorial); }
+.font-mono { font-family: var(--font-mono); }
+
+/* Display headings */
+.text-display-hero {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 14rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+
+.text-display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 9rem);
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+}
+
+.text-display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+}
+
+.text-display-md {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+/* Label styles */
+.text-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.text-label-lg {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   GRAIN TEXTURE OVERLAY
+   ============================================ */
+.grain-overlay {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.035;
+  animation: grain 0.5s steps(2) infinite;
+  z-index: var(--z-overlay);
+}
+
+/* ============================================
+   GLASS PANELS
+   ============================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-dark {
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-acid {
+  background: rgba(200, 255, 0, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(200, 255, 0, 0.15);
+}
+
+/* ============================================
+   GLOW EFFECTS
+   ============================================ */
+.glow-acid {
+  box-shadow: 0 0 60px rgba(200, 255, 0, 0.15), 0 0 120px rgba(200, 255, 0, 0.08);
+}
+
+.glow-ember {
+  box-shadow: 0 0 60px rgba(255, 68, 0, 0.2), 0 0 120px rgba(255, 68, 0, 0.1);
+}
+
+.text-glow-acid {
+  text-shadow: 0 0 40px rgba(200, 255, 0, 0.5);
+}
+
+/* ============================================
+   CUSTOM CURSOR
+   ============================================ */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #c8ff00;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(200, 255, 0, 0.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================
+   MARQUEE
+   ============================================ */
+.marquee-track {
+  display: flex;
+  gap: 0;
+  width: max-content;
+}
+
+.marquee-item {
+  white-space: nowrap;
+  padding: 0 2rem;
+}
+
+/* ============================================
+   PORTFOLIO CARD HOVER
+   ============================================ */
+.portfolio-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.portfolio-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-expo);
+}
+
+.portfolio-card:hover::after {
+  opacity: 1;
+}
+
+.portfolio-card .card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  transform: translateY(100%);
+  transition: transform 0.4s var(--ease-expo);
+  z-index: 1;
+}
+
+.portfolio-card:hover .card-info {
+  transform: translateY(0);
+}
+
+/* ============================================
+   PAGE TRANSITION
+   ============================================ */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px) scale(0.99);
+  filter: blur(4px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition: all 0.6s var(--ease-expo);
+}
+
+/* ============================================
+   SPLIT TEXT ANIMATION (used with GSAP)
+   ============================================ */
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.split-char {
+  display: inline-block;
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ============================================
+   FORM STYLES
+   ============================================ */
+.form-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e8e6e1;
+  font-family: var(--font-body);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: rgba(200, 255, 0, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.form-input::placeholder {
+  color: rgba(232, 230, 225, 0.3);
+}
+
+/* ============================================
+   VIDEO BACKGROUNDS
+   ============================================ */
+.video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================
+   EDITORIAL GRID LINES
+   ============================================ */
+.editorial-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* ============================================
+   COMPARISON SLIDER
+   ============================================ */
+.comparison-slider {
+  position: relative;
+  overflow: hidden;
+  cursor: col-resize;
+  user-select: none;
+}
+
+.comparison-slider-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #c8ff00;
+  z-index: 10;
+  transform: translateX(-50%);
+}
+
+.comparison-slider-handle::before,
+.comparison-slider-handle::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #c8ff00;
+  border: 2px solid #0a0a0a;
+}
+
+.comparison-slider-handle::before {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ============================================
+   STEP PROGRESS
+   ============================================ */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.step-indicator-item {
+  display: flex;
+  align-items: center;
+}
+
+.step-indicator-item::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: rgba(255,255,255,0.15);
+  margin: 0 0.5rem;
+}
+
+.step-indicator-item:last-child::after {
+  display: none;
+}
+
+/* ============================================
+   DASHBOARD SIDEBAR
+   ============================================ */
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: rgba(232, 230, 225, 0.5);
+  transition: all 0.2s var(--ease-expo);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-nav-item:hover {
+  color: #e8e6e1;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-nav-item.active {
+  color: #c8ff00;
+  background: rgba(200, 255, 0, 0.08);
+}
+
+.sidebar-nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 2px;
+  background: #c8ff00;
+  border-radius: 999px;
+}
+
+/* ============================================
+   STATUS BADGES
+   ============================================ */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.status-badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ============================================
+   FLOATING ELEMENTS
+   ============================================ */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes float-rotate {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(3deg); }
+}
+
+.float-y { animation: float-y 5s ease-in-out infinite; }
+.float-rotate { animation: float-rotate 7s ease-in-out infinite; }
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+@media (max-width: 768px) {
+  .text-display-hero {
+    font-size: clamp(3rem, 15vw, 5rem);
+  }
+  .text-display-xl {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .grain-overlay,
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+}
